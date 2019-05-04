@@ -29,6 +29,9 @@ async function quickSort(arr, start, end) {
 }
 
 async function partition(arr, start, end) {
+	for (let i = start; i < end; i++) {
+		states[i] = 1;
+	}
 	let pivotIndex = start;
 	let pivotValue = arr[end];
 	states[pivotIndex] = 0
@@ -42,6 +45,10 @@ async function partition(arr, start, end) {
 		}
 	}
 	await swap(arr, pivotIndex, end);
+	for (let i = start; i < end; i++) {
+		states[i] = -1;
+	}
+
 	return pivotIndex;
 }
 
@@ -66,6 +73,8 @@ function draw() {
 		colorMode(RGB)
 		if (states[i] === 0) {
 			fill(255, 0, 0)
+		} else if (states[i] === 1) {
+			fill(100, 200, 50)
 		} else {
 			fill(255)
 		}
@@ -74,13 +83,10 @@ function draw() {
 }
 
 function setupGUI() {
-	resetButton = createButton('reset');
-	resetButton.mousePressed(reset_values);
-	resetButton.position(10, 20)
 
 	sortButton = createButton('sort');
 	sortButton.mousePressed(sortPressed);
-	sortButton.position(10, 40)
+	sortButton.position(10, 20)
 }
 
 function sortPressed() {
